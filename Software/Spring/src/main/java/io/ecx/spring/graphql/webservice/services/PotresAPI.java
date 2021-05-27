@@ -6,6 +6,7 @@ import io.ecx.spring.graphql.webservice.models.PotresOdgovor;
 import io.ecx.spring.graphql.webservice.models.VrijemeOdgovor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
@@ -31,7 +32,7 @@ public class PotresAPI {
     private static final String EXTERNAL_API_URL = "https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&starttime=%s&endtime=%s";
     private static final String OPEN_WEATHER_MAP = "http://api.openweathermap.org/data/2.5/find?lat=%s&lon=%s&cnt=1&appid=03205f4f54bbc93c4df6a7fe6a0dbb73";
 
-    @Scheduled(cron = "0 */2 * ? * *")
+    @Scheduled(cron = "0 0 12 * * ?")
     public void dohvatiPodatke() {
         final RestTemplate restTemplate = new RestTemplate();
         final PotresOdgovor potresOdgovor = restTemplate.getForObject(String.format(EXTERNAL_API_URL, POCETNI_DATUM, KRAJNJI_DATUM), PotresOdgovor.class);
