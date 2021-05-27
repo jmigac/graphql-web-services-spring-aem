@@ -4,6 +4,7 @@ schema {
 
 type Query{
     potresi: [Potres]
+    potres(id: String): Potres
 }
 
 type Vrijeme{

@@ -6,6 +6,7 @@ import graphql.schema.idl.RuntimeWiring;
 import graphql.schema.idl.SchemaGenerator;
 import graphql.schema.idl.SchemaParser;
 import graphql.schema.idl.TypeDefinitionRegistry;
+import io.ecx.spring.graphql.webservice.datafetchers.PotresDataFetcher;
 import io.ecx.spring.graphql.webservice.datafetchers.SviPotresiDataFetcher;
 import io.ecx.spring.graphql.webservice.repository.PotresRepozitorij;
 import lombok.Getter;
@@ -30,6 +31,9 @@ public class GraphQlServis {
     @Autowired
     private SviPotresiDataFetcher sviPotresiDataFetcher;
 
+    @Autowired
+    private PotresDataFetcher potresDataFetcher;
+
     @Getter
     private GraphQL graphQL;
 
@@ -46,7 +50,8 @@ public class GraphQlServis {
         return RuntimeWiring
                 .newRuntimeWiring()
                 .type("Query", tipPovezanosti -> tipPovezanosti
-                .dataFetcher("potresi", this.sviPotresiDataFetcher))
+                .dataFetcher("potresi", this.sviPotresiDataFetcher)
+                .dataFetcher("potres", this.potresDataFetcher))
                 .build();
     }
 
