@@ -7,8 +7,10 @@ import java.util.List;
 
 public class VrijemeOdgovor {
 
+    private static final String PROGNOZA_VREMENA = "list";
+
     @Getter
-    @JsonProperty("list")
+    @JsonProperty(PROGNOZA_VREMENA)
     List<Vrijeme> prognozaVremena;
 
     public Vrijeme dohvatiPrvuPrognozu(){

@@ -25,10 +25,9 @@ public class PotresAPI {
     @Autowired
     private PotresLogServis potresLogServis;
 
-    private static boolean DOZVOLA_RADA = true;
     private static final long JEDNODNEVNA_RAZLIKA = 1;
-    private static LocalDate POCETNI_DATUM = LocalDate.now();
-    private static LocalDate KRAJNJI_DATUM = POCETNI_DATUM.plusDays(JEDNODNEVNA_RAZLIKA);
+    private final static LocalDate POCETNI_DATUM = LocalDate.now();
+    private final static LocalDate KRAJNJI_DATUM = POCETNI_DATUM.plusDays(JEDNODNEVNA_RAZLIKA);
     private static final String EXTERNAL_API_URL = "https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&starttime=%s&endtime=%s";
     private static final String OPEN_WEATHER_MAP = "http://api.openweathermap.org/data/2.5/find?lat=%s&lon=%s&cnt=1&appid=03205f4f54bbc93c4df6a7fe6a0dbb73";
 

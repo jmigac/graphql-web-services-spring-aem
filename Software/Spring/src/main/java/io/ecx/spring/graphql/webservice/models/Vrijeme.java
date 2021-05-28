@@ -15,6 +15,9 @@ import java.util.Optional;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Vrijeme implements Serializable {
 
+    private static final String VJETAR = "wind";
+    private static final String VRIJEME = "main";
+
     private Double temperatura;
     private Double minimalnaTemperatura;
     private Double maksimalnaTemperatura;
@@ -23,7 +26,7 @@ public class Vrijeme implements Serializable {
     private Double brzinaVjetra;
     private int smjerPuhanja;
 
-    @JsonProperty("main")
+    @JsonProperty(VRIJEME)
     private void otpakirajSvojstvaVremena(final Map<String, String> svojstva){
         this.temperatura = Double.parseDouble(Optional.ofNullable(svojstva.get("temp")).orElse(StringUtils.EMPTY));
         this.minimalnaTemperatura = Double.parseDouble(Optional.ofNullable(svojstva.get("temp_min")).orElse(StringUtils.EMPTY));
@@ -32,7 +35,7 @@ public class Vrijeme implements Serializable {
         this.vlaznostZraka = Integer.parseInt(Optional.ofNullable(svojstva.get("humidity")).orElse(StringUtils.EMPTY));
     }
 
-    @JsonProperty("wind")
+    @JsonProperty(VJETAR)
     private void otpakirajSvojstvaVjetra(final Map<String, String> svojstva){
         this.brzinaVjetra = Double.parseDouble(Optional.ofNullable(svojstva.get("speed")).orElse(StringUtils.EMPTY));
         this.smjerPuhanja = Integer.parseInt(Optional.ofNullable(svojstva.get("deg")).orElse(StringUtils.EMPTY));

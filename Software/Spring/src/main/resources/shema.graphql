@@ -4,6 +4,8 @@ schema {
 
 type Query{
     potresi: [Potres]
+    potresiSTsunamijem: [Potres]
+    potresiIzmeduMagnituda(minMagnituda: Float, maxMagnituda: Float): [Potres]
     potres(id: String): Potres
 }
 
