@@ -29,4 +29,9 @@ public class Lokacija implements Serializable {
         this.geografskaDuzina = Optional.ofNullable(svojstva[0]).orElse(0.00);
         this.dubina = Optional.ofNullable(svojstva[2]).orElse(0.00);
     }
+
+    @Override
+    public String toString() {
+        return this.geografskaSirina + ", " + this.geografskaDuzina;
+    }
 }

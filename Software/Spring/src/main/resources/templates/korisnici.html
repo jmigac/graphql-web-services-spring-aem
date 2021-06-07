@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org" xmlns:dt="http://www.thymeleaf.org/dandelion/datatables">
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css"/>
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.25/css/dataTables.bootstrap4.min.css"/>
+    <script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.25/js/dataTables.bootstrap4.min.js"></script>
+    <link th:src="@{/css/index.css}" type="text/css"/>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+    <title>Korisnici</title>
+</head>
+<body class="d-flex h-100 text-center text-white bg-dark">
+<div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
+    <header class="mb-auto">
+        <div>
+            <h3 class="float-md-start mb-0">Potresi</h3>
+            <nav class="nav nav-masthead justify-content-center float-md-end">
+                <a class="nav-link active" aria-current="page" href="./">Naslovnica</a>
+                <a class="nav-link" href="./potresi">Potresi</a>
+                <a class="nav-link" href="./graphql-potresi">GraphQL potresi krajnja točka</a>
+                <a class="nav-link" href="#">Korisnici</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="px-3">
+        <h1>Vremenske, lokacijske i informativne vijeste o novim potresima</h1>
+        <p class="lead">Početna stranica od web servisa za upravljanjem podacima vezanim uz potrese.</p>
+    </main>
+
+    <table id="tablicaKorisnika" style="margin: 0 auto; width: 60%;" class="display responsive nowrap"
+           dt:table="true" dt:pagingType="full_numbers" dt:lengthMenu="'10,25,50,100'" dt:pageable="true">
+        <thead>
+        <tr>
+            <td>Ime</td>
+            <td>Prezime</td>
+            <td>Email</td>
+            <td>Drzava</td>
+            <td>Kontinent</td>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="korisnik : ${korisnici}">
+            <td th:text="${korisnik?.ime}">ime</td>
+            <td th:text="${korisnik?.prezime}">prezime</td>
+            <td th:text="${korisnik?.email}">email</td>
+            <td th:text="${korisnik.mjesto?.drzava}">drzava</td>
+            <td th:text="${korisnik.mjesto?.kontinent}">kontinent</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <br/>
+    <div class="container">
+        <form action="#" th:action="@{/dodajNovog}" method="post" accept-charset="utf-8">
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="unosImena">Ime</label>
+                    <input type="text" class="form-control" name="ime" id="unosImena" placeholder="Ime">
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="unosPrezimena">Prezime</label>
+                    <input type="text" class="form-control" name="prezime" id="unosPrezimena" placeholder="Prezime">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="email">Email adresa</label>
+                <input type="text" class="form-control" name="email" id="email" placeholder="jmigac@foi.hr">
+            </div>
+            <div class="form-group">
+                <label for="unosMjesta">Država</label>
+                <select id="unosMjesta" class="form-control" name="mjesto">
+                    <option value="USA">Odaberi državu</option>
+                    <option th:each="mjesto : ${mjesta}" th:value="${mjesto?.id}" th:text="${mjesto?.drzava} + ' - ' + ${mjesto?.naziv}"></option>
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary">Kreiraj novog korisnika</button>
+        </form>
+    </div>
+    <footer class="mt-auto text-white-50">
+        <p>Cover template for <a href="https://getbootstrap.com/" class="text-white">Bootstrap</a>, by <a href="https://twitter.com/mdo"
+                                                                                                          class="text-white">@mdo</a>.</p>
+    </footer>
+</div>
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('#tablicaKorisnika').DataTable({
+            "paging": true,
+            "pageLenght": 2,
+            "lenghtChange": false
+        });
+    } );
+</script>
+</body>
+</html>
