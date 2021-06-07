@@ -11,8 +11,10 @@ import java.util.List;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class PotresOdgovor {
 
+    private static final String SVOJSTVA = "features";
+
     @Getter
-    @JsonProperty("features")
+    @JsonProperty(SVOJSTVA)
     private List<PotresModel> potresi;
 
     public boolean imaPotresov(){

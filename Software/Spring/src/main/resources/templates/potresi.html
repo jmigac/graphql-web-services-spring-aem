@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="https://www.thymeleaf.org"
+      xmlns:dt="http://www.thymeleaf.org/dandelion/datatables">
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css"/>
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.25/css/dataTables.bootstrap4.min.css"/>
+    <script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.25/js/dataTables.bootstrap4.min.js"></script>
+    <link th:src="@{/css/index.css}" type="text/css" />
+    <meta charset="UTF-8">
+    <title>Potresi</title>
+</head>
+<body class="d-flex h-100 text-center text-white bg-dark">
+<div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
+    <header class="mb-auto">
+        <div>
+            <h3 class="float-md-start mb-0">Potresi</h3>
+            <nav class="nav nav-masthead justify-content-center float-md-end">
+                <a class="nav-link active" aria-current="page" href="./">Naslovnica</a>
+                <a class="nav-link" href="#">Potresi</a>
+                <a class="nav-link" href="./graphql-potresi">GraphQL potresi krajnja točka</a>
+                <a class="nav-link" href="./korisnici">Korisnici</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="px-3">
+        <h1>Tablični prikaz svih potresa</h1>
+        <p class="lead">Relevantan broj potresa s informacijama o vremenu i lokaciji</p>
+    </main>
+
+    <table style="margin: 0 auto; width: 100%;" class="display responsive nowrap" id="tablicaPotresa"
+           dt:table="true" dt:pagingType="full_numbers" dt:lengthMenu="'10,25,50,100'" dt:pageable="true">
+        <thead>
+            <tr>
+                <td>Id</td>
+                <td>Naziv</td>
+                <td>Magnituda</td>
+                <td>Temperatura</td>
+                <td>Geo. širina</td>
+                <td>Geo. dužina</td>
+                <td>Dubina</td>
+                <td>Država</td>
+                <td>Kontinent</td>
+                <td>Naziv mjesta</td>
+                <td>URL</td>
+            </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td th:text="${potresi.g}">id</td>
+            <td th:text="${potres?.naziv}">naziv</td>
+            <td th:text="${potres?.magnituda}">magnituda</td>
+            <td th:text="${potres.vrijeme?.getTemperatura()}">temperatura</td>
+            <td th:text="${potres.lokacija?.getGeografskaSirina()}"></td>
+            <td th:text="${potres.lokacija?.getGeografskaDuzina()}"></td>
+            <td th:text="${potres.lokacija?.getDubina()}"></td>
+            <td th:text="${potres.mjesto?.drzava}"></td>
+            <td th:text="${potres.mjesto?.kontinent}"></td>
+            <td th:text="${potres.mjesto?.naziv}"></td>
+            <td><a th:href="${potres?.url}" class="btn btn-info"> <i class="fa fa-arrow-circle-o-left"></i>Info o potresu</a></td>
+        </tr>
+        </tbody>
+    </table>
+
+    <footer class="mt-auto text-white-50">
+        <p>Cover template for <a href="https://getbootstrap.com/" class="text-white">Bootstrap</a>, by <a href="https://twitter.com/mdo" class="text-white">@mdo</a>.</p>
+    </footer>
+</div>
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('#tablicaPotresa').DataTable({
+            "paging": true,
+            "pageLenght": 2,
+            "lenghtChange": false
+        });
+    } );
+</script>
+</body>
+</html>

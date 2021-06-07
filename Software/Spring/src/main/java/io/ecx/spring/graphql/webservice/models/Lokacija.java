@@ -17,14 +17,21 @@ import java.util.Optional;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Lokacija implements Serializable {
 
+    private static final String KOORDINATE = "coordinates";
+
     private Double geografskaSirina;
     private Double geografskaDuzina;
     private Double dubina;
 
-    @JsonProperty("coordinates")
+    @JsonProperty(KOORDINATE)
     private void otpakirajKoordinate(final Double[] svojstva) {
         this.geografskaSirina = Optional.ofNullable(svojstva[1]).orElse(0.00);
         this.geografskaDuzina = Optional.ofNullable(svojstva[0]).orElse(0.00);
         this.dubina = Optional.ofNullable(svojstva[2]).orElse(0.00);
+    }
+
+    @Override
+    public String toString() {
+        return this.geografskaSirina + ", " + this.geografskaDuzina;
     }
 }

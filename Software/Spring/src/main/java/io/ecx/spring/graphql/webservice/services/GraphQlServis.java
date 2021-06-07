@@ -7,7 +7,9 @@ import graphql.schema.idl.SchemaGenerator;
 import graphql.schema.idl.SchemaParser;
 import graphql.schema.idl.TypeDefinitionRegistry;
 import io.ecx.spring.graphql.webservice.datafetchers.PotresDataFetcher;
+import io.ecx.spring.graphql.webservice.datafetchers.PotresiMagnitudeDataFetcher;
 import io.ecx.spring.graphql.webservice.datafetchers.SviPotresiDataFetcher;
+import io.ecx.spring.graphql.webservice.datafetchers.TsunamiDataFetcher;
 import io.ecx.spring.graphql.webservice.repository.PotresRepozitorij;
 import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +36,12 @@ public class GraphQlServis {
     @Autowired
     private PotresDataFetcher potresDataFetcher;
 
+    @Autowired
+    private TsunamiDataFetcher tsunamiDataFetcher;
+
+    @Autowired
+    private PotresiMagnitudeDataFetcher potresiMagnitudeDataFetcher;
+
     @Getter
     private GraphQL graphQL;
 
@@ -51,7 +59,9 @@ public class GraphQlServis {
                 .newRuntimeWiring()
                 .type("Query", tipPovezanosti -> tipPovezanosti
                 .dataFetcher("potresi", this.sviPotresiDataFetcher)
-                .dataFetcher("potres", this.potresDataFetcher))
+                .dataFetcher("potres", this.potresDataFetcher)
+                .dataFetcher("potresiSTsunamijem", this.tsunamiDataFetcher)
+                .dataFetcher("potresiIzmeduMagnituda", this.potresiMagnitudeDataFetcher))
                 .build();
     }
 

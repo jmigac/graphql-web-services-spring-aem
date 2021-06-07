@@ -26,7 +26,7 @@ public class GraphQlPotresKontroler {
         greske
                 .stream()
                 .forEach(greska ->
-                    {log.error("GraphQL error: "+greska.getMessage());}
+                    {log.error("GraphQL greška: "+greska.getMessage());}
                 );
         return new ResponseEntity<>(rezultat, HttpStatus.OK);
     }

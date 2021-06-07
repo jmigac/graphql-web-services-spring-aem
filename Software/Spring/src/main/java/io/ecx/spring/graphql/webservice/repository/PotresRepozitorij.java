@@ -20,4 +20,7 @@ public interface PotresRepozitorij extends JpaRepository<PotresModel, Long> {
     @Query(value = "SELECT * FROM potres p LIMIT :limit", nativeQuery = true)
     List<PotresModel> findPotresModelByLimit(@Param("limit") final Integer limit);
 
+    List<PotresModel> findPotresModelsByTsunamiTrue();
+
+    List<PotresModel> findPotresModelsByMagnitudaBetween(final Double minMagnituda, final Double maxMagnituda);
 }

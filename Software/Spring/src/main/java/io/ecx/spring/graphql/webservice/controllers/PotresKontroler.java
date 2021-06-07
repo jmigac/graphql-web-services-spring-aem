@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 
 @Slf4j
+@CrossOrigin
 @Controller
 @RequestMapping(path = "/api/v1/potresi")
 public class PotresKontroler {

@@ -1,5 +1,6 @@
 package io.ecx.spring.graphql.webservice.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
@@ -40,8 +41,11 @@ public class PotresModel {
     private Long vrijemePotresa;
     private String url;
     private boolean tsunami;
-    private String tipMagnitude;
     private String naziv;
+
+    @Transient
+    @JsonIgnore
+    private String tipMagnitudeJson;
 
     @Column(columnDefinition = BINARNI_STUPAC)
     private Lokacija lokacija;
@@ -49,13 +53,19 @@ public class PotresModel {
     @Column(columnDefinition = BINARNI_STUPAC)
     private Vrijeme vrijeme;
 
+    @ManyToOne
+    private Mjesto mjesto;
+
+    @ManyToOne
+    private TipMagnitude tipMagnitude;
+
     @JsonProperty(API_OBJEKT_SVOJSTVA)
     private void otpakirajSlozeniJSON(final Map<String, String> svojstva) {
         this.deskriptivniOpisMjesta = Optional.ofNullable(svojstva.get(API_SVOJSTVO_MJESTO)).orElse(StringUtils.EMPTY);
         this.magnituda = Double.parseDouble(Optional.ofNullable(svojstva.get(API_SVOJSTVO_MAGNITUDA)).orElse(StringUtils.EMPTY));
         this.vrijemePotresa = Long.parseLong(Optional.ofNullable(svojstva.get(API_SVOJSTVO_VRIJEME)).orElse(StringUtils.EMPTY));
         this.url = Optional.ofNullable(svojstva.get(API_SVOJSTVO_URL)).orElse(StringUtils.EMPTY);
-        this.tipMagnitude = Optional.ofNullable(svojstva.get(API_SVOJSTVO_TIP_MAGNITUDE)).orElse(StringUtils.EMPTY);
+        this.tipMagnitudeJson = Optional.ofNullable(svojstva.get(API_SVOJSTVO_TIP_MAGNITUDE)).orElse(StringUtils.EMPTY);
         this.naziv = Optional.ofNullable(svojstva.get(API_SVOJSTVO_NASLOV)).orElse(StringUtils.EMPTY);
     }
 
