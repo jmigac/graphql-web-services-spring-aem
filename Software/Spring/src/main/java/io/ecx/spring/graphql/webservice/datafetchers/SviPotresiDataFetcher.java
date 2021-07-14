@@ -1,0 +1,24 @@
+package io.ecx.spring.graphql.webservice.datafetchers;
+
+import graphql.schema.DataFetcher;
+import graphql.schema.DataFetchingEnvironment;
+import io.ecx.spring.graphql.webservice.models.PotresModel;
+import io.ecx.spring.graphql.webservice.repository.PotresRepozitorij;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import java.util.List;
+
+@Component
+@Slf4j
+public class SviPotresiDataFetcher implements DataFetcher<List<PotresModel>> {
+
+    @Autowired
+    private PotresRepozitorij repozitorij;
+
+    @Override
+    public List<PotresModel> get(final DataFetchingEnvironment dataFetchingEnvironment) {
+        return this.repozitorij.findAll();
+    }
+}

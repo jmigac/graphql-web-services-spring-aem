@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css"/>
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.25/css/dataTables.bootstrap4.min.css"/>
+    <script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.25/js/dataTables.bootstrap4.min.js"></script>
+    <link th:src="@{/css/index.css}" type="text/css"/>
+    <meta charset="UTF-8">
+    <title>Graphql Potresi</title>
+</head>
+<body class="d-flex h-100 text-center text-white bg-dark">
+<div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
+    <header class="mb-auto">
+        <div>
+            <h3 class="float-md-start mb-0">Potresi</h3>
+            <nav class="nav nav-masthead justify-content-center float-md-end">
+                <a class="nav-link active" aria-current="page" href="./">Naslovnica</a>
+                <a class="nav-link" href="./potresi">Potresi</a>
+                <a class="nav-link" href="#">GraphQL potresi krajnja točka</a>
+                <a class="nav-link" href="./korisnici">Korisnici</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="px-3">
+        <h1>Potresi</h1>
+        <p class="lead">Relevantan broj potresa s informacijama o vremenu</p>
+    </main>
+
+    <div class="container">
+        <h3>Informacije o potresima koje se trebaju prikazati</h3>
+        <form action="#" th:action="@{/kreiraj-zahtjev}" method="post" accept-charset="utf-8">
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="eventId" name="eventId">
+                <label class="form-check-label" for="eventId">
+                    Id eventa potresa
+                </label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="nazivPotresa" name="nazivPotresa">
+                <label class="form-check-label" for="nazivPotresa">
+                    Naziv
+                </label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="magnitudaPotresa" name="magnitudaPotresa">
+                <label class="form-check-label" for="magnitudaPotresa">
+                    Magnituda
+                </label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="vrijemePotresa" name="vrijemePotresa">
+                <label class="form-check-label" for="vrijemePotresa">
+                    Vrijeme
+                </label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="urlPotresa" name="urlPotresa">
+                <label class="form-check-label" for="urlPotresa">
+                    Url
+                </label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="tsunamiPotresa" name="tsunamiPotresa">
+                <label class="form-check-label" for="tsunamiPotresa">
+                    Tsunami
+                </label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="lokacijaPotresa" name="lokacijaPotresa">
+                <label class="form-check-label" for="lokacijaPotresa">
+                    Lokacija
+                </label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="vrijemeOkoline" name="vrijemeOkoline">
+                <label class="form-check-label" for="vrijemeOkoline">
+                    Vrijeme
+                </label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="mjestoPotresa" name="mjestoPotresa">
+                <label class="form-check-label" for="mjestoPotresa">
+                    Mjesto potresa
+                </label>
+            </div>
+            <button type="submit" class="btn btn-primary">Kreiraj zahtjev na graphql servis</button>
+        </form>
+    </div>
+    <footer class="mt-auto text-white-50">
+        <p>Cover template for <a href="https://getbootstrap.com/" class="text-white">Bootstrap</a>, by <a href="https://twitter.com/mdo"
+                                                                                                          class="text-white">@mdo</a>.</p>
+    </footer>
+</div>
+</body>
+</html>
