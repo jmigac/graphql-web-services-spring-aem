@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/web-servisi-potresi.iml" filepath="$PROJECT_DIR$/web-servisi-potresi.iml" />
+      <module fileurl="file://$PROJECT_DIR$/all/web-servisi-potresi.all.iml" filepath="$PROJECT_DIR$/all/web-servisi-potresi.all.iml" />
+      <module fileurl="file://$PROJECT_DIR$/core/web-servisi-potresi.core.iml" filepath="$PROJECT_DIR$/core/web-servisi-potresi.core.iml" />
+      <module fileurl="file://$PROJECT_DIR$/it.tests/web-servisi-potresi.it.tests.iml" filepath="$PROJECT_DIR$/it.tests/web-servisi-potresi.it.tests.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ui.apps/web-servisi-potresi.ui.apps.iml" filepath="$PROJECT_DIR$/ui.apps/web-servisi-potresi.ui.apps.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ui.apps.structure/web-servisi-potresi.ui.apps.structure.iml" filepath="$PROJECT_DIR$/ui.apps.structure/web-servisi-potresi.ui.apps.structure.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ui.config/web-servisi-potresi.ui.config.iml" filepath="$PROJECT_DIR$/ui.config/web-servisi-potresi.ui.config.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ui.content/web-servisi-potresi.ui.content.iml" filepath="$PROJECT_DIR$/ui.content/web-servisi-potresi.ui.content.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ui.tests/web-servisi-potresi.ui.tests.iml" filepath="$PROJECT_DIR$/ui.tests/web-servisi-potresi.ui.tests.iml" />
+    </modules>
+  </component>
+</project>

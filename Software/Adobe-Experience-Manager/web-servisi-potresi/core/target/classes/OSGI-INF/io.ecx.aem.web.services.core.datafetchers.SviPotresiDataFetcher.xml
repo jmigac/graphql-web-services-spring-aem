@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<scr:component xmlns:scr="http://www.osgi.org/xmlns/scr/v1.3.0" name="io.ecx.aem.web.services.core.datafetchers.SviPotresiDataFetcher" immediate="true">
+  <service>
+    <provide interface="io.ecx.aem.web.services.core.datafetchers.SviPotresiDataFetcher"/>
+  </service>
+  <reference name="queryBuilder" interface="com.day.cq.search.QueryBuilder" field="queryBuilder"/>
+  <reference name="repozitorijPotresa" interface="io.ecx.aem.web.services.core.services.RepozitorijPotresa" field="repozitorijPotresa"/>
+  <reference name="resourceResolverFactory" interface="org.apache.sling.api.resource.ResourceResolverFactory" field="resourceResolverFactory"/>
+  <implementation class="io.ecx.aem.web.services.core.datafetchers.SviPotresiDataFetcher"/>
+</scr:component>

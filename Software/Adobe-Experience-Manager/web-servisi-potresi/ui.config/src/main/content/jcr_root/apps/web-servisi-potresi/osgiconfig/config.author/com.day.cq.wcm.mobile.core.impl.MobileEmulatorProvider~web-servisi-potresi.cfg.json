@@ -1,0 +1,6 @@
+{
+  "mobile.resourceTypes": [
+    "web-servisi-potresi/components/page"
+  ],
+  "README": "Indicate which page resource types should display the mobile emulators."
+}

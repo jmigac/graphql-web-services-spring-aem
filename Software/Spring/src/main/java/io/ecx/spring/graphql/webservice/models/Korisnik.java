@@ -8,7 +8,6 @@ import javax.persistence.*;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
 @Table
 @Entity
 public class Korisnik {

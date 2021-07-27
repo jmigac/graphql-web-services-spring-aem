@@ -1,0 +1,4 @@
+{
+  "user.mapping": ["web-servisi-potresi.core=web-services-system-user"],
+  "service.ranking": 0
+}

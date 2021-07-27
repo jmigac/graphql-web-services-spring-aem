@@ -61,4 +61,8 @@ public class KorisnikServis {
         return this.repositorij.findById(id);
     }
 
+    public List<Korisnik> nadiKorisnikePoIsoKodu(final String isoKod){
+        return this.repositorij.findKorisniksByMjesto_IsoKod(isoKod);
+    }
+
 }

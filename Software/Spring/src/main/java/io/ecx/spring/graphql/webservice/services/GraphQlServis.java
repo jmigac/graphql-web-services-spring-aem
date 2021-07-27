@@ -1,5 +1,15 @@
 package io.ecx.spring.graphql.webservice.services;
 
+import java.io.File;
+import java.io.IOException;
+
+import javax.annotation.PostConstruct;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.Resource;
+import org.springframework.stereotype.Service;
+
 import graphql.GraphQL;
 import graphql.schema.GraphQLSchema;
 import graphql.schema.idl.RuntimeWiring;
@@ -11,15 +21,8 @@ import io.ecx.spring.graphql.webservice.datafetchers.PotresiMagnitudeDataFetcher
 import io.ecx.spring.graphql.webservice.datafetchers.SviPotresiDataFetcher;
 import io.ecx.spring.graphql.webservice.datafetchers.TsunamiDataFetcher;
 import io.ecx.spring.graphql.webservice.repository.PotresRepozitorij;
+import io.ecx.spring.graphql.webservice.resolvers.MutacijaKreiranjaKorisnika;
 import lombok.Getter;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.io.Resource;
-import org.springframework.stereotype.Service;
-
-import javax.annotation.PostConstruct;
-import java.io.File;
-import java.io.IOException;
 
 @Service
 public class GraphQlServis {
@@ -42,11 +45,14 @@ public class GraphQlServis {
     @Autowired
     private PotresiMagnitudeDataFetcher potresiMagnitudeDataFetcher;
 
+    @Autowired
+    private MutacijaKreiranjaKorisnika mutacijaKreiranjaKorisnika;
+
     @Getter
     private GraphQL graphQL;
 
     @PostConstruct
-    public void ucitavanjeSheme() throws IOException{
+    public void ucitavanjeSheme() throws IOException {
         final File datoteka = this.resurs.getFile();
         final TypeDefinitionRegistry registar = new SchemaParser().parse(datoteka);
         final RuntimeWiring povezanost = this.kreirajPovezanost();
@@ -56,15 +62,15 @@ public class GraphQlServis {
 
     private RuntimeWiring kreirajPovezanost() {
         return RuntimeWiring
-                .newRuntimeWiring()
-                .type("Query", tipPovezanosti -> tipPovezanosti
-                .dataFetcher("potresi", this.sviPotresiDataFetcher)
-                .dataFetcher("potres", this.potresDataFetcher)
-                .dataFetcher("potresiSTsunamijem", this.tsunamiDataFetcher)
-                .dataFetcher("potresiIzmeduMagnituda", this.potresiMagnitudeDataFetcher))
-                .build();
+                 .newRuntimeWiring()
+                 .type(
+                   "Query", tipPovezanosti -> tipPovezanosti
+                                                .dataFetcher("potresi", this.sviPotresiDataFetcher)
+                                                .dataFetcher("potres", this.potresDataFetcher)
+                                                .dataFetcher("potresiSTsunamijem", this.tsunamiDataFetcher)
+                                                .dataFetcher("potresiIzmeduMagnituda", this.potresiMagnitudeDataFetcher))
+                 .type("Mutation", tipPovezanosti -> tipPovezanosti.dataFetcher("kreirajKorisnika", this.mutacijaKreiranjaKorisnika))
+                 .build();
     }
-
-
 
 }

@@ -1,0 +1,4 @@
+io/ecx/aem/web/services/it/tests/PublishPageValidationIT.class
+io/ecx/aem/web/services/it/tests/GetPageIT.class
+io/ecx/aem/web/services/it/tests/HtmlUnitClient.class
+io/ecx/aem/web/services/it/tests/CreatePageIT.class

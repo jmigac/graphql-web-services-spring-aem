@@ -62,8 +62,8 @@ public class PotresModel {
     @JsonProperty(API_OBJEKT_SVOJSTVA)
     private void otpakirajSlozeniJSON(final Map<String, String> svojstva) {
         this.deskriptivniOpisMjesta = Optional.ofNullable(svojstva.get(API_SVOJSTVO_MJESTO)).orElse(StringUtils.EMPTY);
-        this.magnituda = Double.parseDouble(Optional.ofNullable(svojstva.get(API_SVOJSTVO_MAGNITUDA)).orElse(StringUtils.EMPTY));
-        this.vrijemePotresa = Long.parseLong(Optional.ofNullable(svojstva.get(API_SVOJSTVO_VRIJEME)).orElse(StringUtils.EMPTY));
+        this.magnituda = Double.parseDouble(Optional.ofNullable(svojstva.get(API_SVOJSTVO_MAGNITUDA)).orElse("0"));
+        this.vrijemePotresa = Long.parseLong(Optional.ofNullable(svojstva.get(API_SVOJSTVO_VRIJEME)).orElse("0"));
         this.url = Optional.ofNullable(svojstva.get(API_SVOJSTVO_URL)).orElse(StringUtils.EMPTY);
         this.tipMagnitudeJson = Optional.ofNullable(svojstva.get(API_SVOJSTVO_TIP_MAGNITUDE)).orElse(StringUtils.EMPTY);
         this.naziv = Optional.ofNullable(svojstva.get(API_SVOJSTVO_NASLOV)).orElse(StringUtils.EMPTY);

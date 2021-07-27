@@ -23,4 +23,8 @@ public interface PotresRepozitorij extends JpaRepository<PotresModel, Long> {
     List<PotresModel> findPotresModelsByTsunamiTrue();
 
     List<PotresModel> findPotresModelsByMagnitudaBetween(final Double minMagnituda, final Double maxMagnituda);
+
+    List<PotresModel> findPotresModelsByVrijemePotresaGreaterThan(final Long vrijeme);
+
+    List<PotresModel> findPotresModelsByVrijemePotresaBetween(final Long pocetak, final Long kraj);
 }

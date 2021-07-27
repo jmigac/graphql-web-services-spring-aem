@@ -50,17 +50,17 @@
             </tr>
         </thead>
         <tbody>
-        <tr>
-            <td th:text="${potresi.g}">id</td>
+        <tr th:each="potres : ${potresi}">
+            <td th:text="${potres?.id}">id</td>
             <td th:text="${potres?.naziv}">naziv</td>
             <td th:text="${potres?.magnituda}">magnituda</td>
-            <td th:text="${potres.vrijeme?.getTemperatura()}">temperatura</td>
-            <td th:text="${potres.lokacija?.getGeografskaSirina()}"></td>
-            <td th:text="${potres.lokacija?.getGeografskaDuzina()}"></td>
-            <td th:text="${potres.lokacija?.getDubina()}"></td>
-            <td th:text="${potres.mjesto?.drzava}"></td>
-            <td th:text="${potres.mjesto?.kontinent}"></td>
-            <td th:text="${potres.mjesto?.naziv}"></td>
+            <td th:text="${potres?.vrijeme?.getTemperatura()}">temperatura</td>
+            <td th:text="${potres?.lokacija?.getGeografskaSirina()}"></td>
+            <td th:text="${potres?.lokacija?.getGeografskaDuzina()}"></td>
+            <td th:text="${potres?.lokacija?.getDubina()}"></td>
+            <td th:text="${potres?.mjesto?.drzava}"></td>
+            <td th:text="${potres?.mjesto?.kontinent}"></td>
+            <td th:text="${potres?.mjesto?.naziv}"></td>
             <td><a th:href="${potres?.url}" class="btn btn-info"> <i class="fa fa-arrow-circle-o-left"></i>Info o potresu</a></td>
         </tr>
         </tbody>
