@@ -1,22 +1,27 @@
 package io.ecx.spring.graphql.webservice.controllers;
 
-import io.ecx.spring.graphql.webservice.models.Korisnik;
-import io.ecx.spring.graphql.webservice.models.RestApiOdgovor;
-import io.ecx.spring.graphql.webservice.services.KorisnikServis;
-import io.ecx.spring.graphql.webservice.services.MjestoServis;
-import io.ecx.spring.graphql.webservice.utils.ResponseEntityUtils;
+import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 
-import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.Base64;
-import java.util.Map;
+import io.ecx.spring.graphql.webservice.models.Korisnik;
+import io.ecx.spring.graphql.webservice.models.RestApiOdgovor;
+import io.ecx.spring.graphql.webservice.services.KorisnikServis;
+import io.ecx.spring.graphql.webservice.services.MjestoServis;
+import io.ecx.spring.graphql.webservice.utils.ResponseEntityUtils;
 
 @CrossOrigin
 @Controller

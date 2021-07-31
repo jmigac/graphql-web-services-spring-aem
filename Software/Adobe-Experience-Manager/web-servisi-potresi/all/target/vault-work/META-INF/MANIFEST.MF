@@ -1,0 +1,13 @@
+Manifest-Version: 1.0
+Created-By: Apache Jackrabbit FileVault - Package Maven Plugin 1.1.6
+Build-Jdk-Spec: 11
+Implementation-Title: Web servisi za potrese - All
+Implementation-Version: 1.0.0-SNAPSHOT
+Content-Package-Type: container
+Content-Package-Id: io.ecx.aem.web.services:web-servisi-potresi.all:1.0.
+ 0-SNAPSHOT
+Content-Package-Description: All content package for Web servisi za potr
+ ese
+Content-Package-Roots: /apps/web-servisi-potresi-packages,/apps/web-serv
+ isi-potresi-vendor-packages
+

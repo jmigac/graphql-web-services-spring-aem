@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<scr:component xmlns:scr="http://www.osgi.org/xmlns/scr/v1.3.0" name="io.ecx.aem.web.services.core.servlets.RestPotresPoIdServlet">
+  <property name="service.description" type="String" value="PotresPoId"/>
+  <property name="sling.servlet.methods" type="String" value="GET"/>
+  <property name="sling.servlet.paths" type="String" value="/bin/v1/potres"/>
+  <service>
+    <provide interface="javax.servlet.Servlet"/>
+  </service>
+  <reference name="modelFactory" interface="org.apache.sling.models.factory.ModelFactory" field="modelFactory"/>
+  <reference name="repozitorijPotresa" interface="io.ecx.aem.web.services.core.services.RepozitorijPotresa" field="repozitorijPotresa"/>
+  <implementation class="io.ecx.aem.web.services.core.servlets.RestPotresPoIdServlet"/>
+</scr:component>

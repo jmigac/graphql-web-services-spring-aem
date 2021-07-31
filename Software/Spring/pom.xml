@@ -90,19 +90,12 @@
             <artifactId>dandelion-core</artifactId>
             <version>1.1.1</version>
         </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-mail</artifactId>
+            <version>2.5.0</version>
+        </dependency>
     </dependencies>
-    <dependencyManagement>
-        <!--dependencies>
-            <dependency>
-                <groupId>com.vaadin</groupId>
-                <artifactId>vaadin-bom</artifactId>
-                <version>${vaadin.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-        </dependencies-->
-    </dependencyManagement>
-
     <build>
         <plugins>
             <plugin>

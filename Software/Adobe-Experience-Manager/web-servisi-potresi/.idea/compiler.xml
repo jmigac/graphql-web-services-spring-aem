@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="web-servisi-potresi.core" />
+        <module name="web-servisi-potresi.ui.apps" />
+        <module name="web-servisi-potresi.it.tests" />
+        <module name="web-servisi-potresi.all" />
+        <module name="web-servisi-potresi.ui.apps.structure" />
+        <module name="web-servisi-potresi.ui.config" />
+        <module name="web-servisi-potresi.ui.content" />
+        <module name="web-servisi-potresi.ui.tests" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="web-servisi-potresi" target="1.8" />
+      <module name="web-servisi-potresi.all" target="1.8" />
+      <module name="web-servisi-potresi.core" target="1.8" />
+      <module name="web-servisi-potresi.it.tests" target="1.8" />
+      <module name="web-servisi-potresi.ui.apps" target="1.8" />
+      <module name="web-servisi-potresi.ui.apps.structure" target="1.8" />
+      <module name="web-servisi-potresi.ui.config" target="1.8" />
+      <module name="web-servisi-potresi.ui.content" target="1.8" />
+      <module name="web-servisi-potresi.ui.tests" target="1.8" />
+    </bytecodeTargetLevel>
+  </component>
+</project>

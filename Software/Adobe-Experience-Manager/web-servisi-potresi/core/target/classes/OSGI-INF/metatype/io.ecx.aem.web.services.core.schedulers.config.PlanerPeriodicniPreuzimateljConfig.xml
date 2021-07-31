@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metatype:MetaData xmlns:metatype="http://www.osgi.org/xmlns/metatype/v1.2.0" localization="OSGI-INF/l10n/io.ecx.aem.web.services.core.schedulers.config.PlanerPeriodicniPreuzimateljConfig">
+  <OCD id="io.ecx.aem.web.services.core.schedulers.config.PlanerPeriodicniPreuzimateljConfig" name="Planer za periodicni preuzimatelj" description="Planer za upravljanje periodičkim preuzimanjem potresa">
+    <AD id="isJobEnabled" type="Boolean" name="Enable job" description="Variable to allow immediate start or stop on scheduler" default="true"/>
+    <AD id="scheduleExpression" type="String" name="Scheduler cron expression" description="Triggering job every day at 12pm" default="0\ */2\ *\ ?\ *\ *"/>
+  </OCD>
+  <Designate pid="io.ecx.aem.web.services.core.schedulers.PlanerPeriodicniPreuzimatelj">
+    <Object ocdref="io.ecx.aem.web.services.core.schedulers.config.PlanerPeriodicniPreuzimateljConfig"/>
+  </Designate>
+</metatype:MetaData>

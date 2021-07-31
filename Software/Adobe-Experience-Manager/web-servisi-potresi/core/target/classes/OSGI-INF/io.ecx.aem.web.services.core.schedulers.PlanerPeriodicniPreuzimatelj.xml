@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<scr:component xmlns:scr="http://www.osgi.org/xmlns/scr/v1.3.0" name="io.ecx.aem.web.services.core.schedulers.PlanerPeriodicniPreuzimatelj" immediate="true" activate="activate" deactivate="deactivate" modified="modified">
+  <property name="isJobEnabled" type="Boolean" value="true"/>
+  <property name="scheduleExpression" type="String" value="0 */2 * ? * *"/>
+  <service>
+    <provide interface="java.lang.Runnable"/>
+  </service>
+  <reference name="jobManager" interface="org.apache.sling.event.jobs.JobManager" field="jobManager"/>
+  <reference name="scheduler" interface="org.apache.sling.commons.scheduler.Scheduler" field="scheduler"/>
+  <implementation class="io.ecx.aem.web.services.core.schedulers.PlanerPeriodicniPreuzimatelj"/>
+</scr:component>

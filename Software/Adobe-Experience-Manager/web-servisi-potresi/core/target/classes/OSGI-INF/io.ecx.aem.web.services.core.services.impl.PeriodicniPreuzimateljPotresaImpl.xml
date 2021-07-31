@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<scr:component xmlns:scr="http://www.osgi.org/xmlns/scr/v1.3.0" name="io.ecx.aem.web.services.core.services.impl.PeriodicniPreuzimateljPotresaImpl" immediate="true">
+  <service>
+    <provide interface="io.ecx.aem.web.services.core.services.PeriodicniPreuzimateljPotresa"/>
+  </service>
+  <implementation class="io.ecx.aem.web.services.core.services.impl.PeriodicniPreuzimateljPotresaImpl"/>
+</scr:component>
