@@ -6,16 +6,32 @@ Usage of Spring framework for creation of component for filling up local databas
 Following dependencies are required to run Spring Boot.
 * Lombok
 * Spring Web
-* Vaadin
-* Spring Security
+* ThymeLeaf
 * Spring Data JPA
 * MySQL Driver
-* JUnit
 ### 🔚 REST APIs
+#### Potresi
+* **{GET}** /api/v1/potresi (limit) - dohvaćanje svih potresa uz mogućnost uvjetnog dohvaćanja limitiranog broja potresa
+* **{GET}** /api/v1/potresi/_{eventId}_ - dohvaćanje jednog potresa prema ID
+* **{PUT}** /api/v1/potresi/azuriraj - ažuriranje postojećeg potresa 
+* **{DELETE}** /api/v1/potresi/_{eventId}_ - brisanje postojećeg potresa
+
+#### Mjesta
+* **{GET}** /api/v1/mjesto - dohvaćanje svih mjesta na kojim su se dogodili potresi
+* **{GET}** /api/v1/mjesto/_{iso}_ - dohvaćanje mjesta na kojem se je dogodio potres
+
+#### Korisnici 
+* **{GET}** /api/v1/korisnici - dohvaćanje svih korisnika
+* **{GET}** /api/v1/korisnici/_{email}_ - dohvaćanje korisnika po emailu
+* **{POST}** /api/v1/korisnici/dodaj - dodavanje novog korisnika preko tijela zahtjeva
+* **{POST}** /api/v1/korisnici/dodajNovog - dodavanje novog korisnika preka URI-a
+* **{PUT}** /api/v1/korisnici - ažuriranje postojećeg korisnika
+* **{DELETE}** /api/v1/korisnici/izbrisi/_{id}_ - brisanje postojećeg korisnika
 ### 💹 GraphQL endpoint
+#### Spring GraphQL endpoint
+* **{POST}** /api/v1/potresi/graphql - krajnja mrežna točka za dohvaćanje graphql odgovora
 ## Adobe Experience Manager
-### 🔧 Prerequirements
-Following dependencies are required to run AEM.
-#### 📝 Creation of templates
-#### 📄 Creation of pages
-#### 📑 Creation of components
+* **{GET}** /bin/v1/potresi/svi - dohvaćanje svih potresa
+* **{GET}** /bin/v1/potres?id=_{id}_ - dohvaćanje potresa prema ID-u
+* **{POST}** /bin/v1/potresi/brisanje - brisanje potresa prema ID-u
+* **{POST}** /bin/v1/graphql - krajnja mrežna točka za dohvaćanje graphql odgovora
