@@ -62,23 +62,23 @@ public class PlanerPeriodicniPreuzimatelj implements Runnable {
     private void scheduleJob() {
         try {
             if (this.dozvoljenRad) {
-                log.info("Scheduling expression: {}", this.scheduleExpression);
+                log.info("Ekspresija planiranja: {}", this.scheduleExpression);
                 final ScheduleOptions options = this.scheduler.EXPR(this.scheduleExpression).name(JOB_TOPIC).canRunConcurrently(false);
                 this.scheduler.schedule(this, options);
             }
         } catch (final RuntimeException e) {
-            log.error("Unable to schedule a job", e);
+            log.error("Nemogućnost postavljanja posla", e);
         }
     }
 
     private void unScheduleJob() {
         try {
             if (this.scheduler != null) {
-                log.info("Removing scheduled job: {}", JOB_TOPIC);
+                log.info("Brisanje zakazanog posla: {}", JOB_TOPIC);
                 this.scheduler.unschedule(JOB_TOPIC);
             }
         } catch (final RuntimeException e) {
-            log.error("Unable to un schedule a job", e);
+            log.error("Nemogućnost pokretanja zakazanog posla", e);
         }
     }
 

@@ -15,5 +15,10 @@ public interface RepozitorijPotresa {
 
     void brisanjePotresa(ResourceResolver resourceResolver, String id);
 
-    void kreiranjeKorisnika(ResourceResolver resourceResolver, KorisnikZapis korisnik);
+    KorisnikZapis kreiranjeKorisnika(ResourceResolver resourceResolver, KorisnikZapis korisnik);
+
+    List<PotresModel> dohvatiSvePotreseUnutarMagnitude(ResourceResolver resourceResolver, Double minMagnituda, Double maxMagnituda);
+
+    List<PotresModel> dohvatiSvePotreseSTsunami(ResourceResolver resourceResolver);
+
 }

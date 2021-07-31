@@ -10,5 +10,7 @@ public class KorisnikZapis {
     private String ime;
     private String prezime;
     private String email;
+    private String lozinka;
+    private String korisnickoIme;
 
 }

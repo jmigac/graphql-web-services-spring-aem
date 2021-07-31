@@ -30,8 +30,10 @@ import io.ecx.aem.web.services.core.utils.ServletPodaciSadrzajaUtils;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-@Component(service = Servlet.class, property = { Constants.SERVICE_DESCRIPTION + "=GraphQlSviPotresi",
-  "sling.servlet.methods=" + HttpConstants.METHOD_GET, "sling.servlet.paths=" + "/bin/v1/graphql" })
+@Component(service = Servlet.class, property = {
+  Constants.SERVICE_DESCRIPTION + "=GraphQlSviPotresi",
+  "sling.servlet.methods=" + HttpConstants.METHOD_GET,
+  "sling.servlet.paths=" + "/bin/v1/graphql" })
 public class GraphQlServlet extends SlingAllMethodsServlet {
 
     @Reference
@@ -47,17 +49,19 @@ public class GraphQlServlet extends SlingAllMethodsServlet {
     protected void doGet(final SlingHttpServletRequest request, final SlingHttpServletResponse response) throws ServletException, IOException {
         try {
             final ExecutionResult execute = this.graphQlServis.dohvatiGraphQl().execute("query{ potresi{ id magnituda naziv } }");
-            final String json = this.modelFactory.exportModel(
-              execute, ExporterConstants.SLING_MODEL_EXPORTER_NAME, String.class, Collections.emptyMap());
+            final String json = this.modelFactory.exportModel(execute, ExporterConstants.SLING_MODEL_EXPORTER_NAME, String.class, Collections.emptyMap());
             final PrintWriter out = response.getWriter();
             out.print(json);
             out.flush();
         } catch (final RuntimeException e) {
-            log.error("Error");
-        } catch (MissingExporterException e) {
-            log.error("Missing exporter!");
-        } catch (ExportException e) {
-            log.error("Missing export!");
+            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            log.error("Greška za vrijeme izvođenja", e);
+        } catch (final MissingExporterException e) {
+            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            log.error("Nedostaje izvoznik podataka!", e);
+        } catch (final ExportException e) {
+            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            log.error("Greška prilikom izvoza podataka", e);
         }
     }
 
@@ -78,13 +82,13 @@ public class GraphQlServlet extends SlingAllMethodsServlet {
             }
         } catch (final RuntimeException e) {
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-            log.error("Greska tokom izvodenja servleta", e);
+            log.error("Greška za vrijeme izvođenja", e);
         } catch (final MissingExporterException e) {
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-            log.error("");
+            log.error("Nedostaje izvoznik podataka!", e);
         } catch (final ExportException e) {
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-            log.error(" ");
+            log.error("Greška prilikom izvoza podataka", e);
         }
     }
 

@@ -21,7 +21,7 @@ public class ServletPodaciSadrzajaUtils {
                 buffer.append(System.lineSeparator());
             }
         } catch (final IOException e) {
-            log.error("Error");
+            log.error("Greška prilikom čitanja tijela zahtjeva");
         }
         return buffer.toString();
     }

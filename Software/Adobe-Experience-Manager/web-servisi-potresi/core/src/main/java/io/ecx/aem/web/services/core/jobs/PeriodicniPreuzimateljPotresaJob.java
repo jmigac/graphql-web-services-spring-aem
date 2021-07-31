@@ -63,40 +63,38 @@ public class PeriodicniPreuzimateljPotresaJob implements JobConsumer {
                     if (odgovor.imaPotresa()) {
                         for (final PotresModel model : odgovor.getPotresi()) {
                             try {
-                                final ObjectMapper vrijemeMapper = new ObjectMapper().configure(
-                                  DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-                                final URL urlVrijeme = new URL(String.format(OPEN_WEATHER_MAP, model.getLokacija().getGeografskaSirina(),
-                                  model.getLokacija().getGeografskaDuzina()));
+                                final ObjectMapper vrijemeMapper = new ObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+                                final URL urlVrijeme = new URL(String.format(OPEN_WEATHER_MAP, model.getLokacija().getGeografskaSirina(), model.getLokacija().getGeografskaDuzina()));
                                 final VrijemeOdgovor vrijemeOdgovor = vrijemeMapper.readValue(urlVrijeme, VrijemeOdgovor.class);
                                 if (vrijemeOdgovor != null && vrijemeOdgovor.imaPrognoza()) {
                                     model.setModelVremena(vrijemeOdgovor.dohvatiPrvuPrognozu());
                                 }
-                                final ObjectMapper lokacijaMapper = new ObjectMapper().configure(
-                                  DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-                                final URL urlLokacija = new URL(String.format(API_POZICIJA_BASE, model.getLokacija().getGeografskaSirina(),
-                                  model.getLokacija().getGeografskaDuzina()));
+                                final ObjectMapper lokacijaMapper = new ObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+                                final URL urlLokacija = new URL(String.format(API_POZICIJA_BASE, model.getLokacija().getGeografskaSirina(), model.getLokacija().getGeografskaDuzina()));
                                 final PozicijaOdgovor pozicijaOdgovor = lokacijaMapper.readValue(urlLokacija, PozicijaOdgovor.class);
                                 final PozicijaModel dohvacenoMjesto = pozicijaOdgovor.pozicija.get(0);
                                 if (dohvacenoMjesto != null) {
                                     model.setModelPozicije(dohvacenoMjesto);
                                 }
                                 noviPotresi.add(model);
-                            } catch (Exception e) {
+                            } catch (final Exception e) {
                                 log.error("Error during fetching data from external services");
                             }
-                            //provjeri dal je skidano za taj dan
                         }
                         this.periodicniPreuzimateljPotresa.spremiSkupPotresa(noviPotresi, resourceResolver, POCETNI_DATUM.toString());
                     }
                     return JobResult.OK;
                 } catch (final RuntimeException | MalformedURLException e) {
-                    log.error("Exception in during authentification of system user", e);
+                    log.error("Greška tijekom autentifikacije sistemskog korisnika.", e);
                     return JobResult.FAILED;
-                } catch (JsonMappingException e) {
+                } catch (final JsonMappingException e) {
+                    log.error("Greška prilikom mapiranja JSON-a na model", e);
                     return JobResult.FAILED;
-                } catch (JsonParseException e) {
+                } catch (final JsonParseException e) {
+                    log.error("Greška prilikom parsiranja JSON-a", e);
                     return JobResult.FAILED;
-                } catch (IOException e) {
+                } catch (final IOException e) {
+                    log.error("Greška prilikom I/O", e);
                     return JobResult.FAILED;
                 }
             } else {
@@ -115,11 +113,7 @@ public class PeriodicniPreuzimateljPotresaJob implements JobConsumer {
     }
 
     private boolean postojiRoditeljskiCvor(final ResourceResolver resourceResolver) {
-        return resourceResolver.getResource("/content/potres/" + POCETNI_DATUM.toString()) != null;
-    }
-
-    private boolean isJaciPotres(final PotresModel potres) {
-        return potres.getMagnituda() > 2.5;
+        return resourceResolver.getResource("/content/potresi/" + POCETNI_DATUM.toString()) != null;
     }
 
 }

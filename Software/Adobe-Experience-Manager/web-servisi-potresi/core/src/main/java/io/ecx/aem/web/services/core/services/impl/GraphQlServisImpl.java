@@ -15,7 +15,11 @@ import graphql.schema.idl.RuntimeWiring;
 import graphql.schema.idl.SchemaGenerator;
 import graphql.schema.idl.SchemaParser;
 import graphql.schema.idl.TypeDefinitionRegistry;
+import io.ecx.aem.web.services.core.datafetchers.PotresDataFetcher;
+import io.ecx.aem.web.services.core.datafetchers.PotresiIzmeduMagnitudaDataFetcher;
 import io.ecx.aem.web.services.core.datafetchers.SviPotresiDataFetcher;
+import io.ecx.aem.web.services.core.datafetchers.TsunamiPotresiDataFetcher;
+import io.ecx.aem.web.services.core.datafetchers.mutations.KreiranjeKorisnikaMutacija;
 import io.ecx.aem.web.services.core.services.GraphQlServis;
 import io.ecx.aem.web.services.core.services.config.GraphQlServisConfig;
 import lombok.extern.slf4j.Slf4j;
@@ -27,6 +31,18 @@ public class GraphQlServisImpl implements GraphQlServis {
 
     @Reference
     private SviPotresiDataFetcher sviPotresiDataFetcher;
+
+    @Reference
+    private PotresiIzmeduMagnitudaDataFetcher potresiIzmeduMagnitudaDataFetcher;
+
+    @Reference
+    private TsunamiPotresiDataFetcher tsunamiPotresiDataFetcher;
+
+    @Reference
+    private PotresDataFetcher potresDataFetcher;
+
+    @Reference
+    private KreiranjeKorisnikaMutacija kreiranjeKorisnikaMutacija;
 
     private GraphQlServisConfig config;
 
@@ -47,7 +63,7 @@ public class GraphQlServisImpl implements GraphQlServis {
         this.config = config;
         this.graphQlShema = this.config.graphQlShema();
         this.kreirajGraphQLKonfiguraciju();
-        log.info("activate");
+        log.info("Aktivacija servisa");
     }
 
     @Modified
@@ -55,22 +71,28 @@ public class GraphQlServisImpl implements GraphQlServis {
         this.config = config;
         this.graphQlShema = this.config.graphQlShema();
         this.kreirajGraphQLKonfiguraciju();
-        log.info("modify");
+        log.info("Promjena vrijednost GraphQL konfiguracije");
     }
 
     @Deactivate
     protected void deactivate() {
-        log.info("deactivate");
+        log.info("Deaktiviran GraphQL servis");
     }
 
     private RuntimeWiring kreirajPovezanost() {
         return RuntimeWiring
                  .newRuntimeWiring()
-                 .type("Query", tipPovezanosti -> tipPovezanosti.dataFetcher("potresi", this.sviPotresiDataFetcher))
+                 .type(
+                   "Query", tipPovezanosti -> tipPovezanosti
+                                                .dataFetcher("potresi", this.sviPotresiDataFetcher)
+                                                .dataFetcher("potresiIzmeduMagnituda", this.potresiIzmeduMagnitudaDataFetcher)
+                                                .dataFetcher("potresiSTsunamijem", this.tsunamiPotresiDataFetcher)
+                                                .dataFetcher("potres", this.potresDataFetcher))
+                 .type("Mutation", tipPovezanosti -> tipPovezanosti.dataFetcher("kreirajKorisnika", this.kreiranjeKorisnikaMutacija))
                  .build();
     }
 
-    private void kreirajGraphQLKonfiguraciju(){
+    private void kreirajGraphQLKonfiguraciju() {
         final String shema = this.graphQlShema;
         final SchemaParser parser = new SchemaParser();
         final TypeDefinitionRegistry registar = parser.parse(shema);

@@ -19,10 +19,12 @@ import io.ecx.aem.web.services.core.services.RepozitorijPotresa;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-@Component(service = SviPotresiDataFetcher.class, immediate = true)
-public class SviPotresiDataFetcher implements DataFetcher<List<PotresModel>> {
+@Component(service = PotresiIzmeduMagnitudaDataFetcher.class, immediate = true)
+public class PotresiIzmeduMagnitudaDataFetcher implements DataFetcher<List<PotresModel>> {
 
     private static final String SERVISNI_KORISNIK = "web-services-system-user";
+    private static final String MINIMALNA_MAGNITUDA = "minMagnituda";
+    private static final String MAKSIMALNA_MAGNITUDA = "maxMagnituda";
 
     @Reference
     private QueryBuilder queryBuilder;
@@ -36,10 +38,14 @@ public class SviPotresiDataFetcher implements DataFetcher<List<PotresModel>> {
     @Override
     public List<PotresModel> get(final DataFetchingEnvironment dataFetchingEnvironment) throws Exception {
         List<PotresModel> potresi = new ArrayList<>();
-        try (final ResourceResolver resourceResolver = this.resourceResolverFactory.getServiceResourceResolver(this.dohvatiAutentifikacijskePodatke())) {
-            potresi = this.repozitorijPotresa.dohvatiSvePotrese(resourceResolver);
-        } catch (final Exception e) {
-            log.error("Greška prilikom dohvatanja potresa", e);
+        final Double minMagnituda = dataFetchingEnvironment.getArgument(MINIMALNA_MAGNITUDA);
+        final Double maxMagnituda = dataFetchingEnvironment.getArgument(MAKSIMALNA_MAGNITUDA);
+        if (minMagnituda != null && maxMagnituda != null) {
+            try (final ResourceResolver resourceResolver = this.resourceResolverFactory.getServiceResourceResolver(this.dohvatiAutentifikacijskePodatke())) {
+                potresi = this.repozitorijPotresa.dohvatiSvePotreseUnutarMagnitude(resourceResolver, minMagnituda, maxMagnituda);
+            } catch (final Exception e) {
+                log.error("Greška prilikom dohvatanja potresa", e);
+            }
         }
         return potresi;
     }

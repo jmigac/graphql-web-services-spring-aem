@@ -5,9 +5,15 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
+import javax.jcr.RepositoryException;
 import javax.jcr.Session;
 
 import org.apache.commons.collections4.IteratorUtils;
+import org.apache.jackrabbit.api.security.user.Authorizable;
+import org.apache.jackrabbit.api.security.user.Group;
+import org.apache.jackrabbit.api.security.user.User;
+import org.apache.jackrabbit.api.security.user.UserManager;
+import org.apache.jackrabbit.value.StringValue;
 import org.apache.sling.api.resource.PersistenceException;
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.api.resource.ResourceResolver;
@@ -56,14 +62,62 @@ public class RepozitorijPotresaImpl implements RepozitorijPotresa {
                 resourceResolver.delete(potresZaBrisanje);
                 resourceResolver.commit();
             } catch (final PersistenceException e) {
-                log.error("");
+                log.error("Greška za vrijeme pisanja po repozitoriju", e);
             }
         }
     }
 
     @Override
-    public void kreiranjeKorisnika(final ResourceResolver resourceResolver, final KorisnikZapis korisnik) {
+    public List<PotresModel> dohvatiSvePotreseUnutarMagnitude(final ResourceResolver resourceResolver, final Double minMagnituda, final Double maxMagnituda) {
+        return this.dohvatiSvePotreseMagnitude(resourceResolver.adaptTo(Session.class), minMagnituda, maxMagnituda);
+    }
 
+    @Override
+    public List<PotresModel> dohvatiSvePotreseSTsunami(final ResourceResolver resourceResolver) {
+        return this.dohvatiPotreseSTsunamijem(resourceResolver.adaptTo(Session.class));
+    }
+
+    @Override
+    public KorisnikZapis kreiranjeKorisnika(final ResourceResolver resourceResolver, final KorisnikZapis korisnik) {
+        try {
+            final Session sesija = resourceResolver.adaptTo(Session.class);
+            final UserManager userManager = resourceResolver.adaptTo(UserManager.class);
+            final Group grupa = (Group) userManager.getAuthorizable("korisnici-sadrzaja");
+            final User noviKorisnik = userManager.createUser(korisnik.getKorisnickoIme(), korisnik.getLozinka());
+            noviKorisnik.setProperty("./profile/familyName", new StringValue(korisnik.getIme()));
+            noviKorisnik.setProperty("./profile/givenName", new StringValue(korisnik.getPrezime()));
+            noviKorisnik.setProperty("./profile/aboutMe", new StringValue(korisnik.getKorisnickoIme()));
+            noviKorisnik.setProperty("./profile/email", new StringValue(korisnik.getEmail()));
+            grupa.addMember(userManager.getAuthorizable(korisnik.getKorisnickoIme()));
+            sesija.save();
+            resourceResolver.commit();
+        } catch (final Exception e) {
+            log.error("Greška prilikom kreiranja novog korisnika", e);
+        }
+        return korisnik;
+    }
+
+    private List<PotresModel> dohvatiPotreseSTsunamijem(final Session sesija) {
+        Map<String, String> map = new ConcurrentHashMap<>();
+        map.put(PathPredicateEvaluator.PATH, RepozitorijPotresaConstants.PUTANJA_POTRESA);
+        map.put(RepozitorijPotresaConstants.PATH_SELF, Boolean.FALSE.toString());
+        map.put(RepozitorijPotresaConstants.PATH_EXACT, Boolean.FALSE.toString());
+        map.put(RepozitorijPotresaConstants.PRVI_PROPERTY, JcrResourceConstants.SLING_RESOURCE_TYPE_PROPERTY);
+        map.put(RepozitorijPotresaConstants.PRVI_PROPERTY_VRIJEDNOST, RepozitorijPotresaConstants.RESOURCE_TYPE_POTRES);
+        map.put(RepozitorijPotresaConstants.DRUGI_PROPERTY, "tsunami");
+        map.put(RepozitorijPotresaConstants.DRUGI_PROPERTY_OPERACIJA, "equals");
+        map.put(RepozitorijPotresaConstants.PRVI_PROPERTY_VRIJEDNOST, "true");
+        final Query query = this.queryBuilder.createQuery(PredicateGroup.create(map), sesija);
+        final List<Resource> resursi = IteratorUtils.toList(query.getResult().getResources());
+        return resursi.stream().map(resurs -> resurs.adaptTo(PotresModel.class)).collect(Collectors.toList());
+    }
+
+    private List<PotresModel> dohvatiSvePotreseMagnitude(Session sesija, Double minMagnituda, Double maxMagnituda) {
+        return this
+                 .dohvatiSvePotrese(sesija)
+                 .stream()
+                 .filter(potres -> (potres.getMagnituda() > minMagnituda && potres.getMagnituda() < maxMagnituda))
+                 .collect(Collectors.toList());
     }
 
     private List<PotresModel> dohvatiSvePotrese(Session sesija) {
@@ -73,7 +127,7 @@ public class RepozitorijPotresaImpl implements RepozitorijPotresa {
         map.put(RepozitorijPotresaConstants.PATH_EXACT, Boolean.FALSE.toString());
         map.put(RepozitorijPotresaConstants.PROPERTY, JcrResourceConstants.SLING_RESOURCE_TYPE_PROPERTY);
         map.put(RepozitorijPotresaConstants.PROPERTY_VALUE, RepozitorijPotresaConstants.RESOURCE_TYPE_POTRES);
-        map.put("p.limit", "-1");
+        map.put(RepozitorijPotresaConstants.LIMIT, RepozitorijPotresaConstants.SVI_PODACI);
         final Query query = this.queryBuilder.createQuery(PredicateGroup.create(map), sesija);
         final List<Resource> resursi = IteratorUtils.toList(query.getResult().getResources());
         return resursi.stream().map(resurs -> resurs.adaptTo(PotresModel.class)).collect(Collectors.toList());
@@ -84,10 +138,10 @@ public class RepozitorijPotresaImpl implements RepozitorijPotresa {
         map.put(PathPredicateEvaluator.PATH, RepozitorijPotresaConstants.PUTANJA_POTRESA);
         map.put(RepozitorijPotresaConstants.PATH_SELF, Boolean.FALSE.toString());
         map.put(RepozitorijPotresaConstants.PATH_EXACT, Boolean.FALSE.toString());
-        map.put(RepozitorijPotresaConstants.PROPERTY, JcrResourceConstants.SLING_RESOURCE_TYPE_PROPERTY);
-        map.put(RepozitorijPotresaConstants.PROPERTY_VALUE, RepozitorijPotresaConstants.RESOURCE_TYPE_POTRES);
-        map.put(RepozitorijPotresaConstants.PROPERTY, RepozitorijPotresaConstants.IDENTIFIKATOR);
-        map.put(RepozitorijPotresaConstants.PROPERTY_VALUE, id);
+        map.put(RepozitorijPotresaConstants.PRVI_PROPERTY, JcrResourceConstants.SLING_RESOURCE_TYPE_PROPERTY);
+        map.put(RepozitorijPotresaConstants.PRVI_PROPERTY_VRIJEDNOST, RepozitorijPotresaConstants.RESOURCE_TYPE_POTRES);
+        map.put(RepozitorijPotresaConstants.DRUGI_PROPERTY, RepozitorijPotresaConstants.IDENTIFIKATOR);
+        map.put(RepozitorijPotresaConstants.DRUGI_PROPERTY_VRIJEDNOST, id);
         final Query query = this.queryBuilder.createQuery(PredicateGroup.create(map), sesija);
         final List<Resource> resursi = IteratorUtils.toList(query.getResult().getResources());
         return resursi.stream().map(resurs -> resurs.adaptTo(PotresModel.class)).collect(Collectors.toList());
@@ -98,10 +152,10 @@ public class RepozitorijPotresaImpl implements RepozitorijPotresa {
         map.put(PathPredicateEvaluator.PATH, RepozitorijPotresaConstants.PUTANJA_POTRESA);
         map.put(RepozitorijPotresaConstants.PATH_SELF, Boolean.FALSE.toString());
         map.put(RepozitorijPotresaConstants.PATH_EXACT, Boolean.FALSE.toString());
-        map.put(RepozitorijPotresaConstants.PROPERTY, JcrResourceConstants.SLING_RESOURCE_TYPE_PROPERTY);
-        map.put(RepozitorijPotresaConstants.PROPERTY_VALUE, RepozitorijPotresaConstants.RESOURCE_TYPE_POTRES);
-        map.put(RepozitorijPotresaConstants.PROPERTY, RepozitorijPotresaConstants.IDENTIFIKATOR);
-        map.put(RepozitorijPotresaConstants.PROPERTY_VALUE, id);
+        map.put(RepozitorijPotresaConstants.PRVI_PROPERTY, JcrResourceConstants.SLING_RESOURCE_TYPE_PROPERTY);
+        map.put(RepozitorijPotresaConstants.PRVI_PROPERTY_VRIJEDNOST, RepozitorijPotresaConstants.RESOURCE_TYPE_POTRES);
+        map.put(RepozitorijPotresaConstants.DRUGI_PROPERTY, RepozitorijPotresaConstants.IDENTIFIKATOR);
+        map.put(RepozitorijPotresaConstants.DRUGI_PROPERTY_VRIJEDNOST, id);
         final Query query = this.queryBuilder.createQuery(PredicateGroup.create(map), sesija);
         return IteratorUtils.toList(query.getResult().getResources());
     }

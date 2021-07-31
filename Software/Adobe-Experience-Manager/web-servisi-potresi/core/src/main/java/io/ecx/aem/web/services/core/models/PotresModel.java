@@ -35,6 +35,7 @@ public class PotresModel {
     private static final String API_SVOJSTVO_NASLOV = "title";
     private static final String API_SVOJSTVO_LOKACIJA = "lokacija";
     private static final String API_OBJEKT_LOKACIJA = "geometry";
+    private static final String OBJEKT_MJESTO = "pozicija";
 
     @ValueMapValue
     @Default(values = StringUtils.EMPTY)
@@ -73,8 +74,8 @@ public class PotresModel {
     @ChildResource
     private LokacijaModel lokacija;
 
-    @ChildResource
-    private PozicijaModel pozicija;
+    @ChildResource(name = OBJEKT_MJESTO)
+    private PozicijaModel mjesto;
 
     @JsonIgnore
     private VrijemeModel modelVremena;

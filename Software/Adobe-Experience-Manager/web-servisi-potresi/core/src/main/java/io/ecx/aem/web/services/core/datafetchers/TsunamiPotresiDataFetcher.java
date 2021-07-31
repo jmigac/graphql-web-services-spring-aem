@@ -19,8 +19,8 @@ import io.ecx.aem.web.services.core.services.RepozitorijPotresa;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-@Component(service = SviPotresiDataFetcher.class, immediate = true)
-public class SviPotresiDataFetcher implements DataFetcher<List<PotresModel>> {
+@Component(service = TsunamiPotresiDataFetcher.class, immediate = true)
+public class TsunamiPotresiDataFetcher implements DataFetcher<List<PotresModel>> {
 
     private static final String SERVISNI_KORISNIK = "web-services-system-user";
 
@@ -37,7 +37,7 @@ public class SviPotresiDataFetcher implements DataFetcher<List<PotresModel>> {
     public List<PotresModel> get(final DataFetchingEnvironment dataFetchingEnvironment) throws Exception {
         List<PotresModel> potresi = new ArrayList<>();
         try (final ResourceResolver resourceResolver = this.resourceResolverFactory.getServiceResourceResolver(this.dohvatiAutentifikacijskePodatke())) {
-            potresi = this.repozitorijPotresa.dohvatiSvePotrese(resourceResolver);
+            potresi = this.repozitorijPotresa.dohvatiSvePotreseSTsunami(resourceResolver);
         } catch (final Exception e) {
             log.error("Greška prilikom dohvatanja potresa", e);
         }
